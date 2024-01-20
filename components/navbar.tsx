@@ -12,7 +12,7 @@ import { Button } from "@nextui-org/button";
 import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
 import { Input } from "@nextui-org/input";
-
+import {DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar} from "@nextui-org/react"
 import { link as linkStyles } from "@nextui-org/theme";
 
 import { setupWalletSelector } from "@near-wallet-selector/core";
@@ -489,13 +489,23 @@ export const Navbar = () => {
 				<NavbarItem className="hidden sm:flex gap-2">
 				<ThemeSwitch />
 				{!account ? (
-					<button onClick={handleSignIn}>Log in</button>
+					<Button  onClick={handleSignIn}>Log in</Button>
 				) : (
 					<>
-					<button onClick={handleSignOut}>Log out</button>
-        <button onClick={handleSwitchWallet}>Switch Wallet</button>
-        <button onClick={handleVerifyOwner}>Verify Owner</button>
-        <button onClick={handleSignMessage}>Sign Message</button>
+					<Dropdown placement="bottom-end">
+          <DropdownTrigger>
+		  <Button className="">{account.account_id}</Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+			<DropdownItem  onClick={handleSignMessage}>Sign Message</DropdownItem>
+            <DropdownItem  onClick={handleVerifyOwner}>Verify Owner</DropdownItem>
+            <DropdownItem  onClick={handleSwitchWallet}>Switch Wallet</DropdownItem>
+            <DropdownItem onClick={handleSignOut}  color="danger">
+              Log Out
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+	
 		     
         {accounts.length > 1 && (
           <button onClick={handleSwitchAccount}>Switch Account</button>
