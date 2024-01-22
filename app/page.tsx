@@ -1,19 +1,62 @@
 'use client'
-import React from "react";
+import React, { useState, useEffect , useCallback } from 'react';
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
 import {Image,Link} from "@nextui-org/react";
 import { nftAbi , tokenAbi } from '../abi';
+import { providers, utils } from "near-api-js";
 import { button as buttonStyles } from "@nextui-org/theme";
 
+import { useWalletSelector } from "../contexts/WalletSelectorContext";
 
-//https://wagmi.sh/examples/contract-write
+
 export default function Home() {
 //check allowrance
 
 	  const [isClient, setIsClient] = React.useState(true)
 	  const [isApprove, setIsApprove] = React.useState(false)
+	  const { selector, modal, accounts, accountId } = useWalletSelector();
+const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
+const [messages, setMessages] = useState<any>(null)
+const [hash, setHash] = useState<any>(null)
+	  const mintDragon = async() => {
+		//	const { contract } = selector.store.getState();
+			const wallet = await selector.wallet();
+			wallet
+		  .signAndSendTransaction({
+			signerId: accountId!,
+			receiverId: "game.joychi.testnet",
+			actions: [
+			  {
+				type: "FunctionCall",
+				params: {
+				  methodName: "create_pet",
+				  args: {
+					"name": "Dragon Green",
+					"metadata": {
+					  "title": "Dragon Green",
+					  "description": "Power of dragon",
+					  "media": "https://bafkreidmie2fie6k4x3dfrht5sq2wutgxxdsgkgouvyppesd3wvgqidpgm.ipfs.nftstorage.link/"
+					}
+				  },
+				  gas: BOATLOAD_OF_GAS,
+				  deposit: utils.format.parseNearAmount("0")!,//30000000000000000000000
+				},
+			  },
+			],
+		  })
+		  .then((nextMessages:any) => {
+			console.log(nextMessages);
+			setHash(nextMessages.transaction.hash);
+			setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
+		  })
+		  .catch((err) => {
+			alert("Failed to add message");
+			console.log("Failed to add message");
 
+			throw err;
+		  });
+		} 
 
 		React.useEffect(() => {
 		
@@ -40,17 +83,11 @@ export default function Home() {
 				</h2>
 			</div>
 
+
 {isClient ? (
-(!isApprove) ? (
-	<button type="button"   onClick={() =>{}} className="nes-btn w-52" >
-	Approval
+ <button type="button"  disabled={false} onClick={mintDragon} className="nes-btn w-52" >
+ Mint A GotChi
 </button>
-   ):(
-	 <button type="button"  disabled={false} onClick={() =>{}} className="nes-btn w-52" >
-	 Mint A GotChi
- </button>
-	 
-   )
 
 ) : (
 	<>
@@ -64,7 +101,7 @@ export default function Home() {
 			
 			
 			
-{true && (
+{false && (
         <div>
           Successfully minted your NFT!
           <div>
@@ -95,14 +132,6 @@ export default function Home() {
 					<GithubIcon size={20} />
 					GitHub
 				</Link> */}
-				<Link
-					isExternal
-					className={buttonStyles({ variant: "bordered", radius: "full" })}
-					href='https://faucet-testnet.viction.xyz/'
-					>
-					
-					Faucet Vic Testnet
-				</Link> 
 				<Link
 					className={buttonStyles({ variant: "bordered", radius: "full" })}
 					href="/faucet"
