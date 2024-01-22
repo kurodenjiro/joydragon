@@ -92,19 +92,26 @@ export default function PetPage() {
       })
       .then((res:any) => {
         const petList = JSON.parse(Buffer.from(res.result).toString()).filter((pet:any) => pet.owner_id == accountId );
-        console.log("data",petList);
         setPetData(petList)
         if(petList.length > 0){
           const pet = localStorage.getItem('pet');
           setSelectedPet(pet)
           if(pet){
             setSelectedPet(pet);
+            let isExist = true;
             petList.forEach((petItem:any,index:number) => {
               if(petItem.pet_id == pet){
                 setOwnPet(petList[index])
                 setCountDownseconds(petList[index].time_until_starving/10000000)
+                isExist=false;
               }
             });
+            if(isExist){
+              localStorage.setItem('pet',petList[0].pet_id);
+              setSelectedPet(petList[0].pet_id)
+              setOwnPet(petList[0])
+              setCountDownseconds(petList[0].time_until_starving/10000000)
+            }
           }else{
             localStorage.setItem('pet',petList[0].pet_id);
             setSelectedPet(petList[0].pet_id)
@@ -119,7 +126,6 @@ export default function PetPage() {
             finality: "optimistic",
           })
           .then((res:any) => {
-            console.log("item",JSON.parse(Buffer.from(res.result).toString()))
             setItemData(JSON.parse(Buffer.from(res.result).toString()));
           });
           // const pet_base64 = btoa(`{"pet_id": ${petId}}`)
@@ -173,7 +179,6 @@ export default function PetPage() {
       ],
       })
       .then((nextMessages:any) => {
-      console.log(nextMessages);
       fetchMyAPI();
 
       })
@@ -186,6 +191,9 @@ export default function PetPage() {
       onCloseChangePetName()
 
     }
+    const handleSignIn = () => {
+      modal.show();
+    };
     const onBuyAccessory = async(itemId:any) =>{
       const wallet = await selector.wallet();
       wallet
@@ -205,7 +213,6 @@ export default function PetPage() {
       ],
       })
       .then((nextMessages:any) => {
-      console.log(nextMessages);
       fetchMyAPI();
 
       })
@@ -216,20 +223,53 @@ export default function PetPage() {
       throw err;
       });
    }
+   const mintPet = async() => {
+		//	const { contract } = selector.store.getState();
+			const wallet = await selector.wallet();
+			wallet
+		  .signAndSendTransaction({
+			signerId: accountId!,
+			receiverId: "game.joychi.testnet",
+			actions: [
+			  {
+				type: "FunctionCall",
+				params: {
+				  methodName: "create_pet",
+				  args: {
+					"name": "Dragon Green",
+					"metadata": {
+					  "title": "Dragon Green",
+					  "description": "Power of dragon",
+					  "media": "https://bafkreidmie2fie6k4x3dfrht5sq2wutgxxdsgkgouvyppesd3wvgqidpgm.ipfs.nftstorage.link/"
+					}
+				  },
+				  gas: BOATLOAD_OF_GAS,
+				  deposit: utils.format.parseNearAmount("0")!,//30000000000000000000000
+				},
+			  },
+			],
+		  })
+		  .then((nextMessages:any) => {
+        fetchMyAPI();
+			console.log(nextMessages);
+		  })
+		  .catch((err) => {
+			alert("Failed to add message");
+			console.log("Failed to add message");
 
-
- 
-
-    
-
+			throw err;
+		  });
+		} 
   React.useEffect(() => {
-  
-   fetchMyAPI()
+    if(accountId){
+      fetchMyAPI()
+    }
+   console.log(accountId)
+  }, [accountId])
 
 
-  }, [])
 	return (
-    (
+    accountId && ownPet && (
       <>
 <div className="grid grid-cols-6 gap-3 pt-5">
 
@@ -415,45 +455,27 @@ labelPlacement="outside"
 </>
       ) 
      
-	) || isAddress == false && (
+	) || !accountId && (
     <div className="mt-3">
       <div className="flex flex-col items-center justify-center gap-3 pt-20 ">
-    {connectorsData.map((connector:any) => (
-      
-         <button
+      <button
       className="nes-btn w-48  m-2 "
-        disabled={!connector.ready}
-        key={connector.id}
-        onClick={() => {}}
+        onClick={handleSignIn}
       >
-      </button>     
-      
-
-    ))}
+        Connect Wallet
+      </button>   
 </div>
   </div>
-   ) || isPet ==  false  &&  isChain && isAddress && (
+   ) || accountId &&  (
     <div className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 ">
      <h1 className="mt-48">You Dont Own Any Pet !</h1> 
-     {(!isApprove) ? (
-      <button
+     <button
 className="nes-btn w-52"
-onClick={()=>{}}
-  >
-   Approval
-  
-  </button>
-
-     ) : (
-      <button
-className="nes-btn w-52"
- onClick={()=>{}}
+ onClick={mintPet}
   >
    Mint A GotChi
   
   </button>
-
-     )}
 
   
   </div>

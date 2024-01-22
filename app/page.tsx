@@ -3,22 +3,20 @@ import React, { useState, useEffect , useCallback } from 'react';
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
 import {Image,Link} from "@nextui-org/react";
-import { nftAbi , tokenAbi } from '../abi';
 import { providers, utils } from "near-api-js";
 import { button as buttonStyles } from "@nextui-org/theme";
 
 import { useWalletSelector } from "../contexts/WalletSelectorContext";
-
-
 export default function Home() {
-//check allowrance
-
-	  const [isClient, setIsClient] = React.useState(true)
-	  const [isApprove, setIsApprove] = React.useState(false)
+	
 	  const { selector, modal, accounts, accountId } = useWalletSelector();
 const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 const [messages, setMessages] = useState<any>(null)
 const [hash, setHash] = useState<any>(null)
+
+const handleSignIn = () => {
+	modal.show();
+  };
 	  const mintDragon = async() => {
 		//	const { contract } = selector.store.getState();
 			const wallet = await selector.wallet();
@@ -84,14 +82,19 @@ const [hash, setHash] = useState<any>(null)
 			</div>
 
 
-{isClient ? (
+{accountId ? (
  <button type="button"  disabled={false} onClick={mintDragon} className="nes-btn w-52" >
  Mint A GotChi
 </button>
 
 ) : (
 	<>
-	
+	     <button
+      className="nes-btn w-48  m-2 "
+        onClick={handleSignIn}
+      >
+        Connect Wallet
+      </button>   
 		</>
 )
         
