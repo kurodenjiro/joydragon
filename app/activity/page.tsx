@@ -15,10 +15,6 @@ export default function ActivityPage() {
 	const [page, setPage] = React.useState(1);
 	const {data, isLoading, mutate } = useSWR( `https://api-testnet.nearblocks.io/v1/account/game.joychi.testnet/txns?&order=desc&page=${page}&per_page=20`, fetcher, {
 	});
-	console.log("data",data)
-
- 
-
 
 
 const loadingState = isLoading || data?.length === 0 ? "loading" : "idle";

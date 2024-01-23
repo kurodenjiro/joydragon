@@ -141,24 +141,10 @@ export const Navbar = () => {
 		}));
 	}, [accountId, selector]);
   
-	const getMessages = useCallback(() => {
-	  const { network } = selector.options;
-	  const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
-  
-	  return provider
-		.query<CodeResult>({
-		  request_type: "call_function",
-		  account_id: "guest-book.testnet",
-		  method_name: "getMessages",
-		  args_base64: "",
-		  finality: "optimistic",
-		})
-		.then((res) => JSON.parse(Buffer.from(res.result).toString()));
-	}, [selector]);
+
   
 	useEffect(() => {
-	  // TODO: don't just fetch once; subscribe!
-	  getMessages().then(setMessages);
+	  // TODO: don't just fetch once; subscribe
   
 	  const timeoutId = setTimeout(() => {
 		verifyMessageBrowserWallet();
@@ -353,75 +339,8 @@ export const Navbar = () => {
 	  // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
   
-	const handleSubmit = useCallback(
-	  async (e: Submitted) => {
-		e.preventDefault();
+	
   
-		const { fieldset, message, donation, multiple } = e.target.elements;
-  
-		fieldset.disabled = true;
-  
-		return addMessages(message.value, donation.value || "0", multiple.checked)
-		  .then(() => {
-			return getMessages()
-			  .then((nextMessages) => {
-				setMessages(nextMessages);
-				message.value = "";
-				donation.value = SUGGESTED_DONATION;
-				fieldset.disabled = false;
-				multiple.checked = false;
-				message.focus();
-			  })
-			  .catch((err) => {
-				alert("Failed to refresh messages");
-				console.log("Failed to refresh messages");
-  
-				throw err;
-			  });
-		  })
-		  .catch((err) => {
-			console.error(err);
-  
-			fieldset.disabled = false;
-		  });
-	  },
-	  [addMessages, getMessages]
-	);
-  
-	const handleSignMessage = async () => {
-	  const wallet = await selector.wallet();
-  
-	  const message = "test message to sign";
-	  const nonce = Buffer.from(Array.from(Array(32).keys()));
-	  const recipient = "guest-book.testnet";
-  
-	  if (wallet.type === "browser") {
-		localStorage.setItem(
-		  "message",
-		  JSON.stringify({
-			message,
-			nonce: [...nonce],
-			recipient,
-			callbackUrl: location.href,
-		  })
-		);
-	  }
-  
-	  try {
-		const signedMessage = await wallet.signMessage({
-		  message,
-		  nonce,
-		  recipient,
-		});
-		if (signedMessage) {
-		  await verifyMessage({ message, nonce, recipient }, signedMessage);
-		}
-	  } catch (err) {
-		const errMsg =
-		  err instanceof Error ? err.message : "Something went wrong";
-		alert(errMsg);
-	  }
-	};
   
 	if (loading) {
 	  return null;
@@ -498,7 +417,6 @@ export const Navbar = () => {
 		  <Button >{account.account_id}</Button>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-			<DropdownItem  onClick={handleSignMessage}>Sign Message</DropdownItem>
             <DropdownItem  onClick={handleVerifyOwner}>Verify Owner</DropdownItem>
             <DropdownItem  onClick={handleSwitchWallet}>Switch Wallet</DropdownItem>
             <DropdownItem onClick={handleSignOut}  color="danger">
