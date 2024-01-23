@@ -26,6 +26,7 @@ const CountDownTimer = ({ seconds }: commentProp) => {
     };
   }, [seconds]);
   useEffect(() => {
+    console.log("remainSecond",remainSecond)
     console.log(new Date(remainSecond * 1000).toISOString());
   }, [remainSecond]);
 

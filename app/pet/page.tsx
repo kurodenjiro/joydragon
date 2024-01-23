@@ -92,6 +92,7 @@ export default function PetPage() {
       })
       .then((res:any) => {
         const petList = JSON.parse(Buffer.from(res.result).toString()).filter((pet:any) => pet.owner_id == accountId );
+        console.log(petList)
         setPetData(petList)
         if(petList.length > 0){
           const pet = localStorage.getItem('pet');
