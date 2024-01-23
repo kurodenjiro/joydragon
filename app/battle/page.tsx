@@ -168,33 +168,28 @@ const onKill = async( tokenId : any )=> {
 			finality: "optimistic",
 		  })
 		  .then((res:any) => {
-			const petList = JSON.parse(Buffer.from(res.result).toString()).filter((pet:any) => pet.owner_id == accountId );
+			const petList = JSON.parse(Buffer.from(res.result).toString()).filter((pet:any) => pet.owner_id !== accountId );
 			setPetData(petList)
-			if(petList.length > 0){
 			  const pet = localStorage.getItem('pet');
 			  setSelectedPet(pet)
 			  if(pet){
+				//cargo make view get_pet_by_pet_id '{"pet_id": 1}'
+				provider.query<CodeResult>({
+					request_type: "call_function",
+					account_id: "game.joychi.testnet",
+					method_name: "get_pet_by_pet_id",
+					args_base64: btoa(`{"pet_id": ${pet}}`),
+					finality: "optimistic",
+				  })
+				  .then((res:any) => {
+					const ownPet = JSON.parse(Buffer.from(res.result).toString());
+					console.log("ownPet",ownPet);
+					setOwnPet(ownPet)
+				  })
 				setSelectedPet(pet);
-				let isExist = true;
-				petList.forEach((petItem:any,index:number) => {
-				  if(petItem.pet_id == pet){
-					setOwnPet(petList[index])
-					isExist=false;
-				  }
-				});
-				if(isExist){
-				  localStorage.setItem('pet',petList[0].pet_id);
-				  setSelectedPet(petList[0].pet_id)
-				  setOwnPet(petList[0])
-				}
-			  }else{
-				localStorage.setItem('pet',petList[0].pet_id);
-				setSelectedPet(petList[0].pet_id)
-				setOwnPet(petList[0])
+			
 			  }
-			}else{
-			  localStorage.removeItem('pet')
-			}
+			
 			
 	
 		  });
