@@ -1,9 +1,8 @@
 "use client"
 import React, { useState, useEffect ,useMemo } from 'react';
-
+import useSWR from "swr";
 import {Table, TableHeader, TableColumn,Link, TableBody, TableRow, TableCell,Button ,Input , Spinner , Pagination} from "@nextui-org/react";
-
-
+//https://api-testnet.nearblocks.io/v1/account/game.joychi.testnet/txns?&order=desc&page=1&per_page=25
 
 const fetcher = async (...args: Parameters<typeof fetch>) => {
 	const res = await fetch(...args);
@@ -12,19 +11,42 @@ const fetcher = async (...args: Parameters<typeof fetch>) => {
 
 
 export default function ActivityPage() {
-	const [page, setPage] = React.useState(0);
+	const [pages, setPages] = React.useState(1);
+	const [page, setPage] = React.useState(1);
+	const {data, isLoading, mutate } = useSWR( `https://api-testnet.nearblocks.io/v1/account/game.joychi.testnet/txns?&order=desc&page=${page}&per_page=20`, fetcher, {
+	});
+	console.log("data",data)
+
+ 
 
 
 
+const loadingState = isLoading || data?.length === 0 ? "loading" : "idle";
 
 
+useEffect(() => {
+	async function getTotal() {
+		const rowsPerPage = 20;
+		const response = await fetch( `https://api-testnet.nearblocks.io/v1/account/game.joychi.testnet/txns/count?`)
+		const data = await response.json();
+		let total = parseInt(data.txns[0].count)
+		setPages( Math.ceil(total / rowsPerPage))
+	}
+	getTotal()
+},[])
 const renderCell = React.useCallback(async(element:any, columnKey:any ) => {
 
 	const cellValue = element[columnKey];
 	let item : any= {};
-
-	
-	console.log("status",data.method)
+	console.log("status",element.txns[0].actions[0].method)
+	if(element.txns[0].actions[0].method == "create_pet"){
+		item = {
+			pet:"A new Pet",
+			method:element.txns[0].actions[0].method,
+			action:"Mint",
+			log:`Minted`
+		}
+	}
 	switch (columnKey) {
 	  case "pet":
 		return (
