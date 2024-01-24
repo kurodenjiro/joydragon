@@ -21,14 +21,36 @@ import React, { useState, useEffect, useMemo } from 'react';
 export default function Battle() {
 	
 	const [listBattle, setListBattle] = useState<any>(null);
-	const [page, setPage] = React.useState(0);
+	const [page, setPage] = React.useState(1);
 	const [ownPet, setOwnPet] = useState<any>(null)
 	const [selectedPet, setSelectedPet] = useState<any>('')
 	const [activity, setActivity] = useState<any>([])
 	const [petData, setPetData] = React.useState<any>(null)
 	const { selector, modal, accounts, accountId } = useWalletSelector();
-	  
+	const [pages, setPages] = React.useState(1);
 
+	useEffect(() => {
+		async function getTotal() {
+			const rowsPerPage = 20;
+			const { network } = selector.options;
+			const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
+			provider.query<CodeResult>({
+				request_type: "call_function",
+				account_id: "game.joychi.testnet",
+				method_name: "get_all_pet_metadata",
+				args_base64: 'e30=',
+				finality: "optimistic",
+			  })
+			  .then((res:any) => {
+				const petList = JSON.parse(Buffer.from(res.result).toString()).filter((pet:any) => pet.owner_id !== accountId );
+				console.log("petList",petList)
+				let total = parseInt(petList.length)
+			setPages( Math.ceil(total / rowsPerPage))
+			  })
+			
+		}
+		getTotal()
+	},[])
 	  
 	  const renderCell = React.useCallback(async(pet:any, columnKey:any ) => {
 		
@@ -164,7 +186,7 @@ const onKill = async( tokenId : any )=> {
 			request_type: "call_function",
 			account_id: "game.joychi.testnet",
 			method_name: "get_all_pet_metadata",
-			args_base64: 'e30=',
+			args_base64: btoa(`{"start": ${page}, "limit": 20}`),
 			finality: "optimistic",
 		  })
 		  .then((res:any) => {
@@ -173,7 +195,6 @@ const onKill = async( tokenId : any )=> {
 			  const pet = localStorage.getItem('pet');
 			  setSelectedPet(pet)
 			  if(pet){
-				//cargo make view get_pet_by_pet_id '{"pet_id": 1}'
 				provider.query<CodeResult>({
 					request_type: "call_function",
 					account_id: "game.joychi.testnet",
@@ -199,11 +220,25 @@ const onKill = async( tokenId : any )=> {
 
 	useEffect(() => {
 		fetchMyAPI()
-	  }, [])
+	  }, [page])
 	return (
 		<>
 		<div>
 <Table isStriped
+			bottomContent={
+				pages > 0 ? (
+				  <div className="flex w-full justify-center">
+					<Pagination
+					  isCompact
+					  showControls
+					  showShadow
+					  color="primary"
+					  page={page}
+					  total={pages}
+					  onChange={(page) => setPage(page)}
+					/>
+				  </div>
+				) : null}
  topContent={topContent}
  topContentPlacement="outside"
         selectionMode="single"  aria-label="Example static collection table h-44" classNames={{
