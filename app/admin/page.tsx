@@ -59,7 +59,7 @@ export default function FaucetPage() {
 				setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
 			  })
 			  .catch((err) => {
-				alert("Failed to add message");
+				
 				console.log("Failed to add message");
 	
 				throw err;
@@ -101,7 +101,7 @@ export default function FaucetPage() {
 					setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
 				  })
 				  .catch((err) => {
-					alert("Failed to add message");
+					
 					console.log("Failed to add message");
 		
 					throw err;
@@ -142,7 +142,7 @@ export default function FaucetPage() {
 						setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
 					  })
 					  .catch((err) => {
-						alert("Failed to add message");
+						
 						console.log("Failed to add message");
 			
 						throw err;
@@ -182,7 +182,7 @@ export default function FaucetPage() {
 							setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
 						  })
 						  .catch((err) => {
-							alert("Failed to add message");
+							
 							console.log("Failed to add message");
 				
 							throw err;
@@ -201,7 +201,7 @@ export default function FaucetPage() {
 									params: {
 									  methodName: "create_item",
 									  args: {
-										"name": "Revival",
+										"name": "Holy Watter",
 										"price": 1,
 										"points": 0 ,
 										"time_extension": 0 * 60 * 60 *1000,
@@ -222,7 +222,7 @@ export default function FaucetPage() {
 								setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
 							  })
 							  .catch((err) => {
-								alert("Failed to add message");
+								
 								console.log("Failed to add message");
 					
 								throw err;

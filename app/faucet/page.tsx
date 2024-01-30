@@ -40,7 +40,7 @@ export default function FaucetPage() {
 				setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
 			  })
 			  .catch((err) => {
-				alert("Failed to add message");
+				
 				console.log("Failed to add message");
 	
 				throw err;

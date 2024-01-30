@@ -220,7 +220,7 @@ export const Navbar = () => {
 			  ],
 			})
 			.catch((err) => {
-			  alert("Failed to add message");
+			  
 			  console.log("Failed to add message");
   
 			  throw err;

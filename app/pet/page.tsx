@@ -43,7 +43,7 @@ export default function PetPage() {
     return (
       <div
         className={className}
-        style={{ ...style, display: "block" ,  backgroundImage: "url(/gotchi/Assets/Buy_Arrow_Left.png)" , width:"35px" , height:"60px" , backgroundRepeat:"no-repeat", left:"50px" ,zIndex:"100" }}
+        style={{ ...style, display: "block" ,  backgroundImage: "url(/gotchi/Assets/Buy_Arrow_Left.png)" , width:"35px" , height:"60px" , backgroundRepeat:"no-repeat", left:"50px" ,zIndex:"2" }}
         onClick={onClick}
       />
     );
@@ -173,7 +173,7 @@ export default function PetPage() {
 
       })
       .catch((err) => {
-      alert("Failed to add message");
+      
       console.log("Failed to add message");
 
       throw err;
@@ -207,7 +207,7 @@ export default function PetPage() {
 
       })
       .catch((err) => {
-      alert("Failed to add message");
+      
       console.log("Failed to add message");
 
       throw err;
@@ -244,7 +244,7 @@ export default function PetPage() {
 			console.log(nextMessages);
 		  })
 		  .catch((err) => {
-			alert("Failed to add message");
+			
 			console.log("Failed to add message");
 
 			throw err;
