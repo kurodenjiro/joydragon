@@ -235,7 +235,7 @@ export default function FaucetPage() {
 	<div>
 
 
-	<Button color="primary" className="w-full pt-2" onPress={(e)=>onSetPet(e)}>
+	<Button color="primary" className="w-full pt-2" onPress={(e)=>onSetPet()}>
 		Set Pet 
 	  </Button>
 	</div>
@@ -243,28 +243,28 @@ export default function FaucetPage() {
 	
 	  <br/>
 	  <div>
-	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedBeef(e)}>
+	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedBeef()}>
 		Set item Feed Beef
 	  </Button>
 	  </div>
 	
 	  <br/>
 	  <div>
-	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedWater(e)}>
+	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedWater()}>
 		Set item Feed Water
 	  </Button>
 	  </div>
 	
 	  <br/>
 	  <div>
-	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedSheild(e)}>
+	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedSheild()}>
 		Set item Feed Sheild
 	  </Button>
 
 	  </div>
 	  <br/>
 	  <div>
-	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedRevival(e)}>
+	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedRevival()}>
 		Set item Feed Revival
 	  </Button>
 	  </div>
