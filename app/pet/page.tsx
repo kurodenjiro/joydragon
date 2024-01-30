@@ -1,20 +1,9 @@
 "use client"
-//https://nostalgic-css.github.io/NES.css/
-//https://fonts.google.com/specimen/Silkscreen
-//https://www.iconfinder.com/iconsets/8-bit
-//https://www.iconfinder.com/search?q=8%20bit&price=free
-//https://www.iconfinder.com/search/icons?family=pixel-15
-//https://www.iconfinder.com/kladenko
-//${process.env.EXPLORER_URL}/api/tokentx/nft/list?tokenAddress=process.env.NFT_ADDRESS
-//https://www.shutterstock.com/image-vector/8bit-pixel-characters-say-hello-94043773
-//https://www.shutterstock.com/image-vector/collection-colorful-pixel-icons-vector-illustration-2172310153
-//https://www.shutterstock.com/image-vector/colorful-butterfly-icon-pixel-art-2198218611
-//https://www.shutterstock.com/image-vector/pixel-art-8bit-different-types-butterflies-2260306285
 import React from "react";
 import {Progress} from "@nextui-org/react";
 import {Input} from "@nextui-org/react";
 import {Select, SelectItem ,Tooltip ,Button} from "@nextui-org/react";
-import {Card, CardBody} from "@nextui-org/react";
+import {Card, CardBody, CardHeader , CardFooter} from "@nextui-org/react";
 import { button as buttonStyles } from "@nextui-org/theme";
 import {Image} from "@nextui-org/react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Checkbox} from "@nextui-org/react";
@@ -54,7 +43,7 @@ export default function PetPage() {
     return (
       <div
         className={className}
-        style={{ ...style, display: "block" ,color: 'red'  }}
+        style={{ ...style, display: "block" ,  backgroundImage: "url(/gotchi/Assets/Buy_Arrow_Left.png)" , width:"35px" , height:"60px" , backgroundRepeat:"no-repeat", left:"50px" ,zIndex:"100" }}
         onClick={onClick}
       />
     );
@@ -64,7 +53,7 @@ export default function PetPage() {
     return (
       <div
         className={className}
-        style={{ ...style, display: "block" }}
+        style={{ ...style, display: "block" , backgroundImage: "url(/gotchi/Assets/Buy_Arrow_Right.png)"  , width:"35px" , height:"60px" , backgroundRepeat:"no-repeat" , right:"50px"}}
         onClick={onClick}
       />
     );
@@ -430,8 +419,7 @@ labelPlacement="outside"
 
 </div>
 
-
-<div className=" max-w-lg text-center justify-center p-10" >
+<div className="bg-no-repeat bg-center bg-contain"   style={{backgroundImage: "url(/gotchi/Assets/Buy_MenuBG.png)",height:"300px"}} >
 {/* {itemData  && itemData.map((item:any)=>(
 <Tooltip key={"default"}  color={"default"} content={`Feed 1 ${item.name} : ${(parseInt(item.points)/1e18).toFixed(2).toString()} PTS & ${(parseInt(item.timeExtension)/3600).toFixed(2).toString()} TOD with ${(parseInt(item.price)/1e18).toString(2)} Joy`} className="capitalize">
   <button type="button" className="nes-btn w-full" onClick={()=>onBuyAccessory(item.id)}> {item.name} </button>
@@ -440,14 +428,68 @@ labelPlacement="outside"
 
 <Slider {...settings}>
         {itemData  && itemData.map((item:any)=>(
-          <div >
-         
-<Tooltip key={"default"}  color={"default"} content={`Feed 1 ${item.name} : ${(parseInt(item.points)).toFixed(0).toString()} PTS & ${(parseInt(item.time_extension)/3600).toFixed(0).toString()} TOD with ${(parseInt(item.price)).toString(2)} Joy`} className="capitalize">
+
+<div className="col-start-1 col-end-7 ">
   
-  <button type="button" className="nes-btn w-11/12" onClick={()=>onBuyAccessory(item.item_id)}> {item.name} </button>
- 
-</Tooltip> 
+<div className="flex justify-center pt-7">
+  {item.name == "Beef" && (
+    <Image
+    width={100}
+radius={"none"}
+src="/gotchi/Assets/Item_Beef.png"
+/>
+  )}
+  {item.name == "Sheild" && (
+    <Image
+    width={80}
+radius={"none"}
+src="/gotchi/Assets/Item_Shield.png"
+/>
+  )}
+    {item.name == "Water" && (
+    <Image
+    width={50}
+radius={"none"}
+src="/gotchi/Assets/Item_Water.png"
+/>
+  )}
+    {item.name == "Revival" && (
+    <Image
+    width={80}
+radius={"none"}
+src="/gotchi/Assets/Item_HolyWater.png"
+/>
+  )}
 </div>
+<div className="flex justify-center pt-5 ">
+
+<Card
+      radius="lg"
+      className="border-none"
+    >
+      <Image
+        height={240}
+        src="/gotchi/Assets/Buy_Blue_BG.png"
+        width={240}
+      />
+      
+      <CardFooter className="absolute z-10 flex flex-col justify-center">
+      <p className="text-small text-white">{item.name}</p> 
+      <p className="text-small text-white">{item.name == "Beef" ? "Increase TOD and PTS" : item.name == "Water" ? "Increase TOD and PTS" : item.name == "Sheild" ? "Prevent attack" : item.name == "Revival" ? "Revival Pet from Dead" : ""}</p> 
+     
+
+<button type="button" style={{backgroundImage: "url(/gotchi/Assets/Buy_Button.png)"}} className="bg-no-repeat bg-center w-full h-16" onClick={()=>onBuyAccessory(item.item_id)}> </button>
+      </CardFooter>
+    </Card>
+
+
+
+</div>
+
+</div>
+
+       
+    
 ))}
         </Slider>
  {/* <button type="button" className="nes-btn w-full" onClick={setEnableTradingAsync}> Enable Trading</button> */}

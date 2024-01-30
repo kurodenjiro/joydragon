@@ -11,6 +11,7 @@ const fetcher = async (...args: Parameters<typeof fetch>) => {
 
 
 export default function ActivityPage() {
+	
 	const [pages, setPages] = React.useState(1);
 	const [page, setPage] = React.useState(1);
 	const {data, isLoading, mutate } = useSWR( `https://api-testnet.nearblocks.io/v1/account/game.joychi.testnet/txns?&order=desc&page=${page}&per_page=20`, fetcher, {

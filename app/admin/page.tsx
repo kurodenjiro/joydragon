@@ -201,7 +201,7 @@ export default function FaucetPage() {
 									params: {
 									  methodName: "create_item",
 									  args: {
-										"name": "Beef",
+										"name": "Revival",
 										"price": 1,
 										"points": 0 ,
 										"time_extension": 0 * 60 * 60 *1000,
