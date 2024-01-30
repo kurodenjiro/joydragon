@@ -270,12 +270,12 @@ export default function PetPage() {
 
 <div className="row-span-2 "> <Image
     radius={"none"}
-    width={35}
-src="/gotchi/Icon/skull2.png"
+    width={50}
+src="/gotchi/Assets/Dead.png"
 /></div>
-<div className="col-span-2 "><span className="text-sm">TOD</span></div>
+<div className="col-span-2 "><span className="text-lg text-white">TOD</span></div>
 
-<div className="row-span-1 col-span-2 "><span className="font-bold text-lg"> <CountDownTimer seconds={countDownseconds} /></span></div>
+<div className="row-span-1 col-span-2 "><span className="font-bold text-lg text-white"> <CountDownTimer seconds={countDownseconds} /></span></div>
 </div>
 
 </div>
@@ -286,11 +286,11 @@ src="/gotchi/Icon/skull2.png"
 
 <div className="row-span-2 "> <Image
   radius={"none"}
-  width={40}
-  src="/gotchi/Icon/Heart.png"
+  width={60}
+  src="/gotchi/Assets/Heart.png"
 /></div>
-<div className="col-span-2 "><span className="text-sm">Healthy</span></div>
-<div className="row-span-1 col-span-2 "><span className="font-bold text-lg">
+<div className="col-span-2 "><span className="text-sm text-white">Healthy</span></div>
+<div className="row-span-1 col-span-2 "><span className="font-bold text-white text-lg">
 { ownPet  ?  ownPet.status :""}
   </span></div>
 </div>
@@ -352,7 +352,7 @@ src="/gotchi/Icon/skull2.png"
 />
   </div>
   </div>
-<div className="col-start-1 col-end-3 ">{ownPet ? `Level ${ownPet.level.toString()}` : ''} </div>
+<div className="col-start-1 col-end-3 text-white ">{ownPet ? `Level ${ownPet.level.toString()}` : ''} </div>
 <div className="col-end-7 col-span-3">
 <div className="grid grid-cols-3">
 <div className="col-span-1 justify-self-end">
@@ -364,7 +364,7 @@ src="/gotchi/Icon/skull2.png"
 <ModalContent>
       {(onCloseChangePetName) => (
         <>
-          <ModalHeader className="flex flex-col gap-1">Change Pet Name</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1 ">Change Pet Name</ModalHeader>
           <ModalBody>
             <Input
               autoFocus
@@ -387,15 +387,17 @@ src="/gotchi/Icon/skull2.png"
     </ModalContent>
   </Modal>
 
-<Button onPress={onOpenPetName} isIconOnly color="default" variant="ghost" size="sm" aria-label="Change name">
+<Button onPress={onOpenPetName} isIconOnly color="default" variant="ghost" className="text-white" size="sm" aria-label="Change name">
 <svg enable-background="new 0 0 160 80" id="Layer_1" version="1.1" viewBox="0 0 160 80"  xmlns="http://www.w3.org/2000/svg" ><g><rect height="7" width="7" x="97" y="6"/><rect height="7" width="6" x="91" y="6"/><rect height="7" width="7" x="84" y="6"/><rect height="7" width="7" x="77" y="6"/><rect height="7" width="7" x="70" y="6"/><rect height="7" width="6" x="64" y="6"/><rect height="7" width="7" x="57" y="6"/><rect height="7" width="7" x="50" y="6"/><rect height="7" width="6" x="44" y="6"/><rect height="6" width="7" x="37" y="13"/><rect height="7" width="7" x="97" y="19"/><rect height="7" width="6" x="91" y="19"/><rect height="7" width="7" x="84" y="19"/><rect height="7" width="7" x="77" y="19"/><rect height="7" width="7" x="37" y="19"/><rect height="7" width="7" x="37" y="26"/><rect height="6" width="7" x="37" y="33"/><rect height="6" width="7" x="70" y="33"/><rect height="6" width="6" x="64" y="33"/><rect height="6" width="7" x="57" y="33"/><rect height="6" width="7" x="50" y="33"/><rect height="7" width="7" x="37" y="39"/><rect height="7" width="7" x="37" y="46"/><rect height="7" width="7" x="104" y="6"/><rect height="6" width="6" x="111" y="13"/><rect height="7" width="6" x="111" y="19"/><rect height="7" width="6" x="64" y="19"/><rect height="7" width="7" x="57" y="19"/><rect height="7" width="7" x="50" y="19"/><rect height="7" width="7" x="70" y="19"/><rect height="7" width="6" x="111" y="26"/><rect height="6" width="6" x="111" y="33"/><rect height="7" width="6" x="111" y="39"/><rect height="7" width="6" x="111" y="46"/><rect height="7" width="6" x="111" y="53"/><rect height="7" width="7" x="84" y="46"/><rect height="7" width="7" x="77" y="46"/><rect height="7" width="7" x="70" y="46"/><rect height="7" width="6" x="64" y="46"/><rect height="7" width="7" x="57" y="46"/><rect height="7" width="7" x="50" y="46"/><rect height="7" width="7" x="37" y="53"/><rect height="6" width="7" x="97" y="60"/><rect height="6" width="6" x="91" y="60"/><rect height="6" width="7" x="104" y="60"/><rect height="6" width="7" x="84" y="60"/><rect height="6" width="7" x="77" y="60"/><rect height="6" width="7" x="70" y="60"/><rect height="6" width="6" x="64" y="60"/><rect height="6" width="7" x="57" y="60"/><rect height="6" width="7" x="50" y="60"/><rect height="6" width="6" x="44" y="60"/></g></svg>
   </Button></div>
 <div className="col-span-2">
 
 <Select
   fullWidth={false}
-  className="max-w-xs"
+  className="max-w-xs text-white"
 variant="underlined"
+key={"primary"}
+color={"primary"}
 size="sm"
 selectedKeys={[selectedPet]}
 onChange={handleChangeSelectPet}
@@ -413,8 +415,8 @@ labelPlacement="outside"
 <div className="col-start-1 col-end-7 ">
   <Progress size="sm" color="default" aria-label="" value={100} /></div>
 
-  <div className="col-start-1 col-end-3 ">Reward</div>
-<div className="col-end-8 col-span-2 ">{ownPet ? ownPet.reward_debt.toString() : ''} Vic</div>
+  <div className="col-start-1 col-end-3 text-white">Reward</div>
+<div className="col-end-8 col-span-2 text-white">{ownPet ? ownPet.reward_debt.toString() : ''} Vic</div>
 
 
 </div>
