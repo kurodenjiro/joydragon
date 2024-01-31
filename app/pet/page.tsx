@@ -94,20 +94,24 @@ export default function PetPage() {
                 setOwnPet(petList[index])
                 setCountDownseconds(petList[index].time_until_starving/10000000)
                 isExist=false;
+                console.log("ownpet",petList[0])
               }
             });
             if(isExist){
               localStorage.setItem('pet',petList[0].pet_id);
               setSelectedPet(petList[0].pet_id)
               setOwnPet(petList[0])
+              console.log("ownpet",petList[0])
               setCountDownseconds(petList[0].time_until_starving/10000000)
             }
           }else{
             localStorage.setItem('pet',petList[0].pet_id);
             setSelectedPet(petList[0].pet_id)
             setOwnPet(petList[0])
+            
             setCountDownseconds(petList[0].time_until_starving/10000000)
           }
+         
           provider.query<CodeResult>({
             request_type: "call_function",
             account_id: "game.joychi.testnet",
@@ -416,7 +420,7 @@ labelPlacement="outside"
   <Progress size="sm" color="default" aria-label="" value={100} /></div>
 
   <div className="col-start-1 col-end-3 text-white">Reward</div>
-<div className="col-end-8 col-span-2 text-white">{ownPet ? ownPet.reward_debt.toString() : ''} Vic</div>
+<div className="col-end-8 col-span-2 text-white">{ownPet ? ownPet.reward_debt.toString() : ''} Near</div>
 
 
 </div>

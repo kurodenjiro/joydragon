@@ -62,7 +62,7 @@ const { selector, modal, accounts, accountId } = useWalletSelector();
       </CardHeader>
       <Divider/>
       <CardBody>
-		<h1>RECEIVE:{ownPet && ownPet.reward_debt.toString()} Vic</h1>
+		<h1>RECEIVE:{ownPet && ownPet.reward_debt.toString()} Near</h1>
       </CardBody>
       <Divider/>
     </Card>

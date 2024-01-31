@@ -10,7 +10,7 @@ export default function FaucetPage() {
 	const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 	
 
-			const onSetPet = async() => {
+			const onSetPetBlackDragon = async() => {
 			//	const { contract } = selector.store.getState();
 				const wallet = await selector.wallet();
 				wallet
@@ -25,23 +25,23 @@ export default function FaucetPage() {
 					  args: {
 						"need_evol_item": false,
 						"evol_item_id": 1,
-						"name_spec": "Dragon Gotchi",
+						"name_spec": "blackdragon",
 						"pet_evolution": [
 						  {
-							"image": "https://bafkreieutrqfh53fyifpd6k34lum6sq3pmftg25segeudlxoecl4a3pvx4.ipfs.nftstorage.link/",
-							"name": "Baby Dragon",
+							"image": "https://bafkreigw3j7bn3yhkbqt2ercytjhghzn462n5pxzyig4lptuyv4zv6gn6y.ipfs.nftstorage.link/",
+							"name": "Baby Juvenile Black Dragon",
 							"attack_win_rate": 1,
 							"next_evolution_level": 2
 						  },
 						  {
-							"image": "https://bafkreih7qklwigwqxhndpqr3tl2cze522i6g5qooqizzl5yxhzvt4gwfdi.ipfs.nftstorage.link/",
-							"name": "Adult Dragon",
+							"image": "https://bafkreiaqk7mr45wnjwtb4lyv4gpy5rloma3sxq3fq2t6s43tcy3ovnki4m.ipfs.nftstorage.link/",
+							"name": "Adult Juvenile Black Dragon",
 							"attack_win_rate": 1,
 							"next_evolution_level": 3
 						  },
 						  {
-							"image": "https://bafkreidmie2fie6k4x3dfrht5sq2wutgxxdsgkgouvyppesd3wvgqidpgm.ipfs.nftstorage.link/",
-							"name": "Dragon",
+							"image": "https://bafkreibxsv2zfwsftq5yg42rtbersqz6xdnqkohu5eomtdwikbv5uglhmu.ipfs.nftstorage.link/",
+							"name": "Great Juvenile Black Dragon",
 							"attack_win_rate": 1,
 							"next_evolution_level": 4
 						  }
@@ -65,7 +65,61 @@ export default function FaucetPage() {
 				throw err;
 			  });
 			} 
-			
+			const onSetPetGreenDragon = async() => {
+				//	const { contract } = selector.store.getState();
+					const wallet = await selector.wallet();
+					wallet
+				  .signAndSendTransaction({
+					signerId: accountId!,
+					receiverId: "game.joychi.testnet",
+					actions: [
+					  {
+						type: "FunctionCall",
+						params: {
+						  methodName: "create_species",
+						  args: {
+							"need_evol_item": false,
+							"evol_item_id": 1,
+							"name_spec": "greendragon",
+							"pet_evolution": [
+							  {
+								"image": "https://bafkreid32fvsd54vejrhsp26zebufsdqnx7jjgtg7j5odp6vyc3b4joecm.ipfs.nftstorage.link/",
+								"name": "Baby Green Dragon",
+								"attack_win_rate": 1,
+								"next_evolution_level": 2
+							  },
+							  {
+								"image": "https://bafkreiapb7ryik6hqe3hj2sd5fjfsexfvuumyxf7jhlzhv64zjmvdp456q.ipfs.nftstorage.link/",
+								"name": "Adult Green Dragon",
+								"attack_win_rate": 1,
+								"next_evolution_level": 3
+							  },
+							  {
+								"image": "https://bafkreig77ufvn7jmr4macehsuww7lz5xflwyb2e75esli6sz5ywfxzhsha.ipfs.nftstorage.link/",
+								"name": "Great Green Wyrm",
+								"attack_win_rate": 1,
+								"next_evolution_level": 4
+							  }
+							]
+						  },
+						  gas: BOATLOAD_OF_GAS,
+						  deposit: utils.format.parseNearAmount("0")!,//30000000000000000000000
+						},
+					  },
+					],
+				  })
+				  .then((nextMessages:any) => {
+					console.log(nextMessages);
+					setHash(nextMessages.transaction.hash);
+					setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
+				  })
+				  .catch((err) => {
+					
+					console.log("Failed to add message");
+		
+					throw err;
+				  });
+				} 			
 		
 			const onSetItemFeedBeef = async() => {
 				//	const { contract } = selector.store.getState();
@@ -235,8 +289,11 @@ export default function FaucetPage() {
 	<div>
 
 
-	<Button color="primary" className="w-full pt-2" onPress={(e)=>onSetPet()}>
-		Set Pet 
+	<Button color="primary" className="w-full pt-2" onPress={(e)=>onSetPetBlackDragon()}>
+		Set Pet Black Dragon
+	  </Button>
+	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetPetGreenDragon()}>
+		Set Pet Green Dragon
 	  </Button>
 	</div>
 
