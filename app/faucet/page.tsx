@@ -68,7 +68,7 @@ export default function FaucetPage() {
 	  onChange={handleChangeAddress}
     />
 	<br/>
-		<Button color="primary" className="w-full" onPress={(e)=>onFaucet(e)}>
+		<Button color="primary" className="w-full" onPress={(e)=>onFaucet()}>
 		faucet $Joy Token
 	  </Button>
 	  <br/>

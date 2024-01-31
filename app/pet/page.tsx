@@ -23,18 +23,14 @@ const tokenAddress = process.env.TOKEN_ADDRESS
 
 export default function PetPage() {
   const [petData, setPetData] = React.useState<any>(null)
-  const [isPet, setIsPet] = React.useState<any>(true)
   const [itemData, setItemData] = React.useState<any>(null)
-  const [isAddress, setIsAddress] = React.useState<any>(false)
-  const [isChain, setIsChain] = React.useState<any>(false)
   const [selectedPet, setSelectedPet] = React.useState<any>(null)
   const [ownPet, setOwnPet] = React.useState<any>(null)
+  const [evolPet, setEvolPet] = React.useState<any>(null)
   const [selectedItem, setSelectedItem] = React.useState<any>(null)
-  const [isApprove, setIsApprove] = React.useState(false)
-  const [balloons, setBalloons] = React.useState<any>(null)
   const [petName, setPetName] = React.useState<any>(null)
-  const [connectorsData, setConnectors] = React.useState<any>([])
   const { selector, modal, accounts, accountId } = useWalletSelector();
+  
   const [countDownseconds, setCountDownseconds] = React.useState(0);
 	const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
   const {isOpen : isOpenPetName , onOpen : onOpenPetName, onOpenChange : onOpenChangePetName , onClose : onCloseChangePetName} = useDisclosure();
@@ -74,7 +70,7 @@ export default function PetPage() {
     const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
     provider.query<CodeResult>({
         request_type: "call_function",
-        account_id: "game.joychi.testnet",
+        account_id: "game1.joychi.testnet",
         method_name: "get_all_pet_metadata",
         args_base64: 'e30=',
         finality: "optimistic",
@@ -92,16 +88,61 @@ export default function PetPage() {
             petList.forEach((petItem:any,index:number) => {
               if(petItem.pet_id == pet){
                 setOwnPet(petList[index])
+                console.log("ownPet",petList[index])
                 setCountDownseconds(petList[index].time_until_starving/10000000)
+                provider.query<CodeResult>({
+                  request_type: "call_function",
+                  account_id: "game1.joychi.testnet",
+                  method_name: "get_pet_evolution_item",
+                  args_base64: btoa(`{"pet_id": ${petItem.pet_id}}`),
+                  finality: "optimistic",
+                })
+                .then((res:any) => {
+                  console.log(JSON.parse(Buffer.from(res.result).toString()))
+                  setEvolPet(JSON.parse(Buffer.from(res.result).toString()))
+                });
+                provider.query<CodeResult>({
+                  request_type: "call_function",
+                  account_id: "game1.joychi.testnet",
+                  method_name: "get_pet_by_pet_id",
+                  args_base64: btoa(`{"pet_id": ${petItem.pet_id}}`),
+                  finality: "optimistic",
+                }).then((res:any) => {
+                  console.log("petInfo",JSON.parse(Buffer.from(res.result).toString()));
+                })
+                
                 isExist=false;
-                console.log("ownpet",petList[0])
+               
               }
             });
             if(isExist){
               localStorage.setItem('pet',petList[0].pet_id);
               setSelectedPet(petList[0].pet_id)
               setOwnPet(petList[0])
-              console.log("ownpet",petList[0])
+              console.log("ownPet",petList[0])
+              provider.query<CodeResult>({
+                request_type: "call_function",
+                account_id: "game1.joychi.testnet",
+                method_name: "get_pet_evolution_item",
+                args_base64: btoa(`{"pet_id": ${petList[0].pet_id}}`),
+                finality: "optimistic",
+              })
+              .then((res:any) => {
+                console.log("evol",JSON.parse(Buffer.from(res.result).toString()))
+                setEvolPet(JSON.parse(Buffer.from(res.result).toString()))
+              });
+
+              
+              provider.query<CodeResult>({
+                request_type: "call_function",
+                account_id: "game1.joychi.testnet",
+                method_name: "get_pet_by_pet_id",
+                args_base64: btoa(`{"pet_id": ${petList[0].pet_id}}`),
+                finality: "optimistic",
+              }).then((res:any) => {
+                console.log("petInfo",JSON.parse(Buffer.from(res.result).toString()));
+              })
+              
               setCountDownseconds(petList[0].time_until_starving/10000000)
             }
           }else{
@@ -114,7 +155,7 @@ export default function PetPage() {
          
           provider.query<CodeResult>({
             request_type: "call_function",
-            account_id: "game.joychi.testnet",
+            account_id: "game1.joychi.testnet",
             method_name: "get_all_item_metadata",
             args_base64: 'e30=',
             finality: "optimistic",
@@ -122,16 +163,8 @@ export default function PetPage() {
           .then((res:any) => {
             setItemData(JSON.parse(Buffer.from(res.result).toString()));
           });
-          // const pet_base64 = btoa(`{"pet_id": ${petId}}`)
-          // const petInfo : any =   provider.query<CodeResult>({
-          //   request_type: "call_function",
-          //   account_id: "game.joychi.testnet",
-          //   method_name: "get_pet_by_pet_id",
-          //   args_base64: pet_base64,
-          //   finality: "optimistic",
-          // }).then((res:any) => {
-          //   console.log("petInfo",JSON.parse(Buffer.from(res.result).toString()));
-          // })
+          
+
         }else{
           localStorage.removeItem('pet')
         }
@@ -141,10 +174,6 @@ export default function PetPage() {
   }
 
 
-  
-
-  
-    
 
     const handleChangePetName = ( event : any )=> {
       setPetName(event.target.value);
@@ -159,7 +188,7 @@ export default function PetPage() {
       wallet
       .signAndSendTransaction({
       signerId: accountId!,
-      receiverId: "game.joychi.testnet",
+      receiverId: "game1.joychi.testnet",
       actions: [
         {
         type: "FunctionCall",
@@ -193,7 +222,7 @@ export default function PetPage() {
       wallet
       .signAndSendTransaction({
       signerId: accountId!,
-      receiverId: "game.joychi.testnet",
+      receiverId: "game1.joychi.testnet",
       actions: [
         {
         type: "FunctionCall",
@@ -223,7 +252,7 @@ export default function PetPage() {
 			wallet
 		  .signAndSendTransaction({
 			signerId: accountId!,
-			receiverId: "game.joychi.testnet",
+			receiverId: "game1.joychi.testnet",
 			actions: [
 			  {
 				type: "FunctionCall",
@@ -311,7 +340,7 @@ src="/gotchi/Assets/Dead.png"
     STARVING,
     DYING, */}
 <div className="col-start-1 col-end-7 pt-10">
-  <div className="flex justify-center">
+  {/* <div className="flex justify-center">
   {ownPet  ?  ownPet.status == "HAPPY" ? (
   <Image
   radius={"none"}
@@ -345,14 +374,14 @@ src="/gotchi/Assets/Dead.png"
 
   ) :'' : ''}
 
-  </div>
+  </div> */}
   </div>
 <div className="col-start-1 col-end-7 ">
   <div className="flex justify-center">
   <Image
   radius={"none"}
-  width={100}
-  src="/gotchi/Animated/GIF_Pet.gif"
+  width={200}
+  src={`/gotchi/animation/green_dragon/${ownPet.pet_evolution_phase}.gif`}
 />
   </div>
   </div>
@@ -459,7 +488,7 @@ radius={"none"}
 src="/gotchi/Assets/Item_Water.png"
 />
   )}
-    {item.name == "Revival" && (
+    {item.name == "Holy Watter" && (
     <Image
     width={80}
 radius={"none"}

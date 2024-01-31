@@ -20,7 +20,7 @@ const { selector, modal, accounts, accountId } = useWalletSelector();
 		  if(pet){
 			provider.query<CodeResult>({
 				request_type: "call_function",
-				account_id: "game.joychi.testnet",
+				account_id: "game1.joychi.testnet",
 				method_name: "get_pet_by_pet_id",
 				args_base64: btoa(`{"pet_id": ${pet}}`),
 				finality: "optimistic",

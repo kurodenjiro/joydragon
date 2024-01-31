@@ -17,7 +17,7 @@ import React, { useState, useEffect, useMemo } from 'react';
   import { providers, utils } from "near-api-js";
   
  
-  //https://github.com/ChangoMan/nextjs-ethereum-starter/blob/main/frontend/pages/index.tsx
+
 export default function Battle() {
 	
 	const [listBattle, setListBattle] = useState<any>(null);
@@ -36,7 +36,7 @@ export default function Battle() {
 			const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
 			provider.query<CodeResult>({
 				request_type: "call_function",
-				account_id: "game.joychi.testnet",
+				account_id: "game1.joychi.testnet",
 				method_name: "get_all_pet_metadata",
 				args_base64: 'e30=',
 				finality: "optimistic",
@@ -184,7 +184,7 @@ const onKill = async( tokenId : any )=> {
 		const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
 		provider.query<CodeResult>({
 			request_type: "call_function",
-			account_id: "game.joychi.testnet",
+			account_id: "game1.joychi.testnet",
 			method_name: "get_all_pet_metadata",
 			args_base64: btoa(`{"start": ${page}, "limit": 20}`),
 			finality: "optimistic",
@@ -197,7 +197,7 @@ const onKill = async( tokenId : any )=> {
 			  if(pet){
 				provider.query<CodeResult>({
 					request_type: "call_function",
-					account_id: "game.joychi.testnet",
+					account_id: "game1.joychi.testnet",
 					method_name: "get_pet_by_pet_id",
 					args_base64: btoa(`{"pet_id": ${pet}}`),
 					finality: "optimistic",

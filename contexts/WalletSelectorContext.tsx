@@ -62,7 +62,7 @@ export const WalletSelectorContextProvider: React.FC<{
       ],
     });
     const _modal = setupModal(_selector, {
-      contractId: "game.joychi.testnet",
+      contractId: "game1.joychi.testnet",
     });
     const state = _selector.store.getState();
     setAccounts(state.accounts);

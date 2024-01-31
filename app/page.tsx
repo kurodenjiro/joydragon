@@ -23,7 +23,7 @@ const handleSignIn = () => {
 			wallet
 		  .signAndSendTransaction({
 			signerId: accountId!,
-			receiverId: "game.joychi.testnet",
+			receiverId: "game1.joychi.testnet",
 			actions: [
 			  {
 				type: "FunctionCall",
@@ -49,7 +49,7 @@ const handleSignIn = () => {
 			setMessages(nextMessages.receipts_outcome[1].outcome.logs[0])
 		  })
 		  .catch((err) => {
-			alert("Failed to add message");
+		
 			console.log("Failed to add message");
 
 			throw err;

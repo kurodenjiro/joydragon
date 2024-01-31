@@ -8,15 +8,13 @@ export default function FaucetPage() {
 	const [hash, setHash] = useState<any>(null)
 	const { selector, modal, accounts, accountId } = useWalletSelector();
 	const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
-	
-
 			const onSetPetBlackDragon = async() => {
 			//	const { contract } = selector.store.getState();
 				const wallet = await selector.wallet();
 				wallet
 			  .signAndSendTransaction({
 				signerId: accountId!,
-				receiverId: "game.joychi.testnet",
+				receiverId: "game1.joychi.testnet",
 				actions: [
 				  {
 					type: "FunctionCall",
@@ -71,7 +69,7 @@ export default function FaucetPage() {
 					wallet
 				  .signAndSendTransaction({
 					signerId: accountId!,
-					receiverId: "game.joychi.testnet",
+					receiverId: "game1.joychi.testnet",
 					actions: [
 					  {
 						type: "FunctionCall",
@@ -127,7 +125,7 @@ export default function FaucetPage() {
 					wallet
 				  .signAndSendTransaction({
 					signerId: accountId!,
-					receiverId: "game.joychi.testnet",
+					receiverId: "game1.joychi.testnet",
 					actions: [
 					  {
 						type: "FunctionCall",
@@ -168,7 +166,7 @@ export default function FaucetPage() {
 						wallet
 					  .signAndSendTransaction({
 						signerId: accountId!,
-						receiverId: "game.joychi.testnet",
+						receiverId: "game1.joychi.testnet",
 						actions: [
 						  {
 							type: "FunctionCall",
@@ -208,7 +206,7 @@ export default function FaucetPage() {
 							wallet
 						  .signAndSendTransaction({
 							signerId: accountId!,
-							receiverId: "game.joychi.testnet",
+							receiverId: "game1.joychi.testnet",
 							actions: [
 							  {
 								type: "FunctionCall",
@@ -248,7 +246,7 @@ export default function FaucetPage() {
 								wallet
 							  .signAndSendTransaction({
 								signerId: accountId!,
-								receiverId: "game.joychi.testnet",
+								receiverId: "game1.joychi.testnet",
 								actions: [
 								  {
 									type: "FunctionCall",
@@ -292,12 +290,16 @@ export default function FaucetPage() {
 	<Button color="primary" className="w-full pt-2" onPress={(e)=>onSetPetBlackDragon()}>
 		Set Pet Black Dragon
 	  </Button>
-	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetPetGreenDragon()}>
+	
+	
+	</div>
+	<br/>
+	<div>
+	<Button color="primary" className="w-full pt-2" onPress={(e)=>onSetPetGreenDragon()}>
 		Set Pet Green Dragon
 	  </Button>
 	</div>
 
-	
 	  <br/>
 	  <div>
 	  <Button color="primary" className="w-full pt-2" onPress={(e)=>onSetItemFeedBeef()}>
