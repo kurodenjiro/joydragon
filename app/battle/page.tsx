@@ -62,7 +62,7 @@ export default function Battle() {
 			return (
 				<div className="relative flex justify-start items-center gap-2">
 				<User
-					avatarProps={{radius: "lg", className:"p-1" ,src: "/gotchi/Animated/GIF_Pet.gif"}}
+					avatarProps={{radius: "lg", className:"p-1" ,src: `/gotchi/animation/${pet.category}/${pet.pet_evolution_phase}.gif`}}
 					description={`lv:${pet.level}`}
 					name={pet.name+'#'+pet.pet_id}
 	   			>
@@ -109,7 +109,7 @@ export default function Battle() {
 				<Card >
       <CardHeader className="justify-between">
         <div className="flex gap-5">
-          <Avatar isBordered radius="lg" color="primary" size="md" src="/gotchi/Animated/GIF_Pet.gif" />
+          <Avatar isBordered radius="lg" color="primary" size="md" src={`/gotchi/animation/${ownPet.category}/${ownPet.pet_evolution_phase}.gif`} />
           <div className="flex flex-col gap-1 items-start justify-center">
             <h4 className="text-small font-semibold leading-none text-default-600">{ownPet && ownPet.name.slice(0,5)+'...'}#{ownPet && ownPet.pet_id.toString()}</h4>
             <h5 className="text-small tracking-tight text-default-400">LV:{ownPet && ownPet.level.toString()}</h5>

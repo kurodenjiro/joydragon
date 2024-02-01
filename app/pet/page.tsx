@@ -381,7 +381,7 @@ src="/gotchi/Assets/Dead.png"
   <Image
   radius={"none"}
   width={200}
-  src={`/gotchi/animation/green_dragon/${ownPet.pet_evolution_phase}.gif`}
+  src={`/gotchi/animation/${ownPet.category}/${ownPet.pet_evolution_phase}.gif`}
 />
   </div>
   </div>
@@ -488,6 +488,13 @@ radius={"none"}
 src="/gotchi/Assets/Item_Water.png"
 />
   )}
+      {item.name == "Moon Stone" && (
+    <Image
+    width={100}
+radius={"none"}
+src="/gotchi/Assets/Item_Moonstone.png"
+/>
+  )}
     {item.name == "Holy Watter" && (
     <Image
     width={80}
@@ -510,7 +517,7 @@ src="/gotchi/Assets/Item_HolyWater.png"
       
       <CardFooter className="absolute z-10 flex flex-col justify-center">
       <p className="text-small text-white">{item.name}</p> 
-      <p className="text-small text-white">{item.name == "Beef" ? "Increase TOD and PTS" : item.name == "Water" ? "Increase TOD and PTS" : item.name == "Sheild" ? "Prevent attack" : item.name == "Revival" ? "Revival Pet from Dead" : ""}</p> 
+      <p className="text-small text-white">{item.name == "Beef" ? "Increase TOD and PTS" : item.name == "Water" ? "Increase TOD and PTS" : item.name == "Sheild" ? "Prevent attack" : item.name == "Holy Watter" ? "Revival Pet from Dead" : item.name == "Moon Stone" ? "Pet Evolution" : ""}</p> 
      
 
 <button type="button" style={{backgroundImage: "url(/gotchi/Assets/Buy_Button.png)"}} className="bg-no-repeat bg-center w-full h-16" onClick={()=>onBuyAccessory(item.item_id)}> </button>
